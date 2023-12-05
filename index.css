@@ -6,17 +6,17 @@ form {
   margin-top: 0;
 }
 #amount {
-  padding-right: 70px;
+  padding-right: 50px;
   margin: 10px;
   margin-top: 0;
 }
 #Description {
-  padding-right: 70px;
+  padding-right: 50px;
   margin: 10px;
   margin-top: 0;
 }
 #categeory {
-  padding-right: 70px;
+  padding-right: 80px;
   margin: 10px;
   margin-top: 0;
 }
@@ -36,4 +36,9 @@ li {
   padding-left: 7px;
   margin-left: 3px;
   padding-right: 7px;
+}
+#Name {
+  padding-right: 50px;
+  margin: 10px;
+  margin-top: 0;
 }
