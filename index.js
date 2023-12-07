@@ -1,68 +1,73 @@
-var buttn = document.getElementById("submit");
-var body = document.querySelector("body");
+// ----------------------------showuserdetails function -------------------------------------------------------
 
-buttn.addEventListener("click", addinfo);
+function saveuserdetails(event){
+  event.preventDefault();
+const name=event.target.name.value;
+const amount=event.target.amount.value;
+const catgeory=event.target.categeory.value;
 
-function addinfo() {
-  var name = document.getElementById("Name");
-  var infoname = document.createElement("li");
-  var info1text = document.createElement("li");
-  infoname.appendChild(document.createTextNode(name.value + "  "));
-  info1text.appendChild(document.createTextNode(name.value));
-  name.value = " ";
-  body.appendChild(infoname);
-
-  var amount = document.getElementById("amount");
-  var info1 = document.createElement("span");
-  info1.appendChild(document.createTextNode("$" + amount.value + " - "));
-  amount.value = " ";
-  infoname.appendChild(info1);
-
-  var catvalue = document.getElementById("categeory");
-  var info3 = document.createElement("span");
-  info3.appendChild(document.createTextNode(catvalue.value));
-  catvalue.value = " ";
-  infoname.appendChild(info3);
-
-  var decvalue = document.getElementById("Description");
-  var info2 = document.createElement("span");
-  info2.appendChild(document.createTextNode(decvalue.value + " "));
-  decvalue.value = " ";
-  infoname.appendChild(info2);
-
-  var del = document.createElement("button");
-  del.textContent = "Delete";
-  del.className = "button";
-  infoname.appendChild(del);
-  del.addEventListener("click", delitem);
-
-  var edit = document.createElement("button");
-  edit.textContent = " " + "Edit";
-  edit.className = "button";
-  infoname.appendChild(edit);
-  edit.addEventListener("click", edits);
-
-  var newinfo = {
-    name: info1text.textContent,
-    amount: info1text.textContent,
-    category: info3.textContent,
-    description: info2.textContent,
-  };
-  var infodata = JSON.stringify(newinfo);
-  localStorage.setItem("user " + info1text.textContent, infodata);
-
-  function edits() {
-    amount.value = info1.textContent;
-    decvalue.value = info2.textContent;
-    catvalue.value = info3.textContent;
-    name.value = info1text.textContent;
-    infoname.remove();
-    localStorage.removeItem("user " + info1text.textContent);
-  }
-
-  function delitem() {
-    alert("Are You Sure!");
-    infoname.remove();
-    localStorage.removeItem("user " + info1text.textContent);
-  }
+const userobj={
+  name,
+  amount,
+  catgeory,
 }
+localStorage.setItem(userobj.name,JSON.stringify(userobj));
+showuserdetails(userobj);
+
+// ------------------------- free input text data remove
+// document.getElementById("name").value=" ";
+// document.getElementById("amount").value=" ";
+// document.getElementById("categeory").value=" ";
+
+}
+
+// ------------------------showuserdetails on Screen---------------------------------------------------------------
+
+function showuserdetails(userobj){
+  const parent=document.getElementById("div");
+  const child=document.createElement("li");
+  parent.appendChild(child);
+
+  child.textContent = userobj.name+"__"+userobj.amount+"__"+userobj.catgeory+"__";
+
+  // --------------------create delete button
+ const deletebtn=document.createElement("input");
+ deletebtn.type="button";
+ deletebtn.value="Delete";
+ child.appendChild(deletebtn);
+ deletebtn.onclick=()=>{
+  parent.removeChild(child);
+  localStorage.removeItem(userobj.name);
+ }
+
+//  ----------------------------create Edit Button------------------------------------------------
+const editbtn=document.createElement("input");
+editbtn.type="button";
+editbtn.value="Edit";
+child.appendChild(editbtn);
+editbtn.onclick=()=>{
+  // console.log(document.getElementById("name"));
+  document.getElementById("Name").value=userobj.name;
+  document.getElementById("amount").value=userobj.amount;
+  document.getElementById("categeory").value=userobj.catgeory;
+  parent.removeChild(child);
+}
+
+
+
+}
+
+window.addEventListener("DOMContentLoaded",()=>{
+  const localStorageobj=localStorage;
+  const localStoragekeys=Object.keys(localStorageobj);
+
+  for(var i=0;i<localStoragekeys.length;i++)
+  {
+    const keys=localStoragekeys[i];
+    const userdetails=localStorageobj[keys];
+    const userdetailsobj=JSON.parse(userdetails);
+    showuserdetails(userdetailsobj);
+  }
+})
+
+
